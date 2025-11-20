@@ -13,7 +13,7 @@ from os.path import dirname, abspath
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
 from app.config import settings 
-from app.database.database import Base
+from app.database import Base
 from app.models.purchases import PurchaseModel
 from app.models.rents import RentsModel
 from app.models.roles import RoleModel
