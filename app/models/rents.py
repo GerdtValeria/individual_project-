@@ -7,4 +7,4 @@ class ItemModel(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(50))
     price = Column(Integer)
-    quantity = Column(Integer)
+    time = Column(Integer)

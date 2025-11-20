@@ -6,8 +6,8 @@ class PurchaseModel(Base):
 
  id = Column(Integer, primary_key=True)
  id_user = Column(Integer, ForeignKey('users.id'))
- id_items = Column(Integer, ForeignKey('items.id'))
- quantity = Column(Integer) 
+ id_rents = Column(Integer, ForeignKey('items.id'))
+ time = Column(Integer) 
  cost = Column(Integer) 
 
  user = relationship("UserModel", back_populates="purchases")
