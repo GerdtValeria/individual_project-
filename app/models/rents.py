@@ -10,6 +10,7 @@ class RentsModel(Base):
     id_comments = Column(Integer, ForeignKey('comments.id'))
     id_ratings = Column(Integer, ForeignKey('ratings.id'))
     title = Column(String(50))
+    realty_type = Column(String(50))
     price = Column(Integer)
     description = Column(String(65535))
     active = Column(Boolean)
