@@ -3,13 +3,13 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 
 
-class PurchaseModel(Base):
- __tablename__ = 'purchases'
+class BookingsModel(Base):
+ __tablename__ = 'bookings'
  id = Column(Integer, primary_key=True)
  id_user = Column(Integer, ForeignKey('users.id'))
- id_rents = Column(Integer, ForeignKey('items.id'))
+ id_rents = Column(Integer, ForeignKey('rents.id'))
  time = Column(Integer) 
  cost = Column(Integer) 
 
- user = relationship("UserModel", back_populates="purchases")
- item = relationship("ItemModel", back_populates="purchases")
+ users = relationship("UserModel", back_populates="bookings")
+ rents = relationship("RentsModel", back_populates="bookings")

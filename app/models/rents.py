@@ -1,10 +1,22 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from app.database import Base
 
 class RentsModel(Base):
-    __tablename__ = 'items'
+    __tablename__ = 'rents'
     id = Column(Integer, primary_key=True)
+    id_categories = Column(Integer, ForeignKey('categories.id'))
+    id_image = Column(Integer, ForeignKey('images.id'))
+    id_comments = Column(Integer, ForeignKey('comments.id'))
+    id_ratings = Column(Integer, ForeignKey('ratings.id'))
     title = Column(String(50))
     price = Column(Integer)
-    time = Column(Integer)
+    description = Column(String(65535))
+    active = Column(Boolean)
+
+users = relationship("UserModel", back_populates="rents")
+bookings = relationship("BookingsModel", back_populates="rents")
+ratings = relationship("RatingsModel", back_populates="rents")
+images = relationship("ImagesModel", back_populates="rents")
+comments = relationship("CommentsModel", back_populates="rents")
+categories = relationship("CategoriesModel", back_populates="rents")
