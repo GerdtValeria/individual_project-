@@ -7,7 +7,7 @@ class RentsModel(Base):
     id = Column(Integer, primary_key=True)
     id_categories = Column(Integer, ForeignKey('categories.id'))
     id_image = Column(Integer, ForeignKey('images.id'))
-    id_user = Column(Integer, ForeignKey('ratings.id'))
+    id_user = Column(Integer, ForeignKey('users.id'))
     title = Column(String(50))
     price = Column(Integer)
     description = Column(String(65535))
