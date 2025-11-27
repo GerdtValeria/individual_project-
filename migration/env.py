@@ -20,7 +20,6 @@ from app.models.roles import RoleModel
 from app.models.users import UserModel 
 from app.models.categories import CategoriesModel
 from app.models.comments import CommentsModel
-from app.models.ratings import RatingsModel
 from app.models.images import ImagesModel
 
 # this is the Alembic Config object, which provides
