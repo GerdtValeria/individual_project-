@@ -6,6 +6,7 @@ class CommentsModel(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)
     id_user = Column(Integer, ForeignKey('users.id'))
+    id_rent = Column(Integer, ForeignKey('rent.id'))
     content = Column(String(1000))
     
 rents = relationship("RentsModel", back_populates="comments")
