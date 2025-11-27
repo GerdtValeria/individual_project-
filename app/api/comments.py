@@ -1,16 +1,18 @@
 from fastapi import APIRouter
+from app.schemas.comments import SCommentAdd
+from app.services.comments import CommentService
 
 router = APIRouter(prefix="/comments",tags=["Comment"])
 
 @router.get("/")
 async def get_comments():
  comments = await CommentService().get_all_comments()   
-     return comments
+ return comments
 
 @router.get("/{id}")
 async def get_comment(id:int):
     comment = await CommentService().get_all_comments(id=id)   
-     return comment
+    return comment
 
 @router.post("/")
 async def add_comment(comment_data: SCommentAdd):

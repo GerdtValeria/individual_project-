@@ -1,16 +1,17 @@
 from fastapi import APIRouter
+from app.services.users import UserService
 
 router = APIRouter(prefix="/users",tags=["User"])
 
 @router.get("/")
 async def get_users():
     users = await UserService().get_all_users()   
-     return users
+    return users
 
 @router.get("/{id}")
 async def get_user(id:int):
     user = await UserService().get_all_users(id=id)   
-     return user
+    return user
 
 @router.post("/")
 async def add_user(user_data: SUserAdd):

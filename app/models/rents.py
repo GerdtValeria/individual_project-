@@ -1,11 +1,11 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from app.database import Base
+from app.database.database import Base
 
 class RentsModel(Base):
     __tablename__ = 'rents'
     id = Column(Integer, primary_key=True)
-    id_categories = Column(Integer, ForeignKey('categories.id'))
+    id_category = Column(Integer, ForeignKey('categories.id'))
     id_image = Column(Integer, ForeignKey('images.id'))
     id_user = Column(Integer, ForeignKey('users.id'))
     title = Column(String(50))

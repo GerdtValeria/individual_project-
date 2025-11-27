@@ -1,26 +1,19 @@
 from fastapi import APIRouter
+from app.schemas.bookings import SBookingsAdd
+from app.services.bookings import BookingService
 
 router = APIRouter(prefix="/sample",tags=["Sample"])
 
-@router.get("/")
-async def get_samples():
-    samples = await SampleService().get_all_samples()   
-     return samples
+@router.get("/", summary="Просмотр всех бронирований")
+async def get_bookings():
+    bookings = await BookingService().get_all_bookings()   
+    return bookings
 
-@router.get("/{id}")
-async def get_sample(id:int):
-    sample = await SampleService().get_all_sample(id=id)   
-     return sample
+@router.get("/me", summary="Просмотр бронирований текущего пользователя")
+async def get_booking(id:int):
+    booking = await BookingService().get_all_bookings(id=id)   
+    return booking
 
-@router.post("/")
-async def add_sample(sample_data: SSampleAdd):
-    await SampleService().add_sample(sample_data)
-
-@router.put("/{id}")
-async def edit_sample(id:int, sample_data: SSampleAdd):
-    data = await SampleService().edit_sample(id,sample_data)
-    return data
-
-@router.delete("/{id}")
-async def delete_sample(id:int):
-     await SampleService().delete_sample(id=id)   
+@router.post("/", summary="Бронирование недвижимости")
+async def add_booking(booking_data: SBookingsAdd):
+    await BookingService().add_booking(booking_data)
