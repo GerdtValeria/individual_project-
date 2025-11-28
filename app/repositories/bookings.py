@@ -1,6 +1,11 @@
-from sqlalchemy import select, and_
+import logging
+from sqlite3 import IntegrityError
+from asyncpg import UniqueViolationError
+from pydantic import BaseModel
+from sqlalchemy import insert, select, and_
 from typing import List, Optional
 from datetime import date
+from app.exceptions import ObjectAlreadyExistsException
 from app.models.bookings import BookingsModel
 from app.repositories.base import BaseRepository
 
