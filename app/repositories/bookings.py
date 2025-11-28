@@ -1,39 +1,43 @@
-from datetime import date
-
-from sqlalchemy import select
-
-from app.repositories.mapper.mappers import BookingDataMapper
-from app.exceptions.bookings import RealtyNotAvailableException
+from sqlalchemy import select, and_, or_
+from typing import List, Optional
+from datetime import datetime, date
 from app.models.bookings import BookingsModel
 from app.repositories.base import BaseRepository
-from app.repositories.utils import rooms_ids_free
-from app.schemas.bookings import SBookingAdd
 
+class BookingRepository(BaseRepository[BookingsModel]):
+    def __init__(self, session):
+        super().__init__(session, BookingsModel)
 
-class BookingsRepository(BaseRepository):
-    model: BookingsModel = BookingsModel
-    mapper = BookingDataMapper
-
-    async def add_booking(self, booking_data: SBookingAdd, hotel_id: int):
-        rooms_ids_to_get = rooms_ids_free(
-            date_from=booking_data.date_from,
-            date_to=booking_data.date_to,
-            hotel_id=hotel_id,
+    async def get_user_bookings(self, user_id: int) -> List[BookingsModel]:
+        result = await self.session.execute(
+            select(BookingsModel).where(BookingsModel.id_user == user_id)
         )
-        rooms_ids_to_booking: list[int] = (
-            (await self.session.execute(rooms_ids_to_get)).scalars().all()
+        return result.scalars().all()
+
+    async def get_active_bookings(self) -> List[BookingsModel]:
+        result = await self.session.execute(
+            select(BookingsModel).where(BookingsModel.status == "active")
         )
+        return result.scalars().all()
 
-        if booking_data.rent_id in rooms_ids_to_booking:
-            return await self.add(booking_data)
-        else:
-            raise RealtyNotAvailableException()
+    async def get_bookings_by_date_range(self, date_start: date, date_end: date) -> List[BookingsModel]:
+        result = await self.session.execute(
+            select(BookingsModel).where(
+                and_(
+                    BookingsModel.booking_date >= date_start,
+                    BookingsModel.booking_date <= date_end
+                )
+            )
+        )
+        return result.scalars().all()
 
-    async def get_bookings_with_today_checkin(self):
-        query = select(self.model).filter(self.model.date_from == date.today())
-
-        result = await self.session.execute(query)
-
-        return [
-            self.mapper.map_to_schema(model) for model in result.scalars().all()
-        ]
+    async def get_overdue_bookings(self) -> List[BookingsModel]:
+        result = await self.session.execute(
+            select(BookingsModel).where(
+                and_(
+                    BookingsModel.status == "active",
+                    BookingsModel.end_date < datetime.now().date()
+                )
+            )
+        )
+        return result.scalars().all()
