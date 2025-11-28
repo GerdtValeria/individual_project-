@@ -1,8 +1,9 @@
 from sqlalchemy import select, desc
 from typing import List, Optional
-from app.exceptions.bookings import RealtyNotAvailableException
+from exceptions.bookings import RealtyNotAvailableException
 from app.models.comments import CommentsModel
 from app.repositories.base import BaseRepository
+from app.repositories.utils import rooms_ids_free
 from app.schemas.bookings import SBookingAdd
 
 class CommentsRepository(BaseRepository):
