@@ -3,7 +3,7 @@ from typing import List, Optional
 from app.models.roles import RoleModel
 from app.repositories.base import BaseRepository
 
-class RolesRepository(BaseRepository[RoleModel]):
+class RolesRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, RoleModel)
 

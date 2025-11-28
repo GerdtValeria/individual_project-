@@ -3,7 +3,7 @@ from typing import List, Optional
 from app.models.categories import CategoriesModel
 from app.repositories.base import BaseRepository
 
-class CategoriesRepository(BaseRepository[CategoriesModel]):
+class CategoriesRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, CategoriesModel)
 

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.exc import IntegrityError
 
-from app.base import ObjectAlreadyExistsException
+from app.exceptions import ObjectAlreadyExistsException
 from app.repositories.mapper.base import DataMapper
 
 

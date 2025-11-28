@@ -3,7 +3,7 @@ from typing import List
 from app.models.images import ImagesModel
 from app.repositories.base import BaseRepository
 
-class ImagesRepository(BaseRepository[ImagesModel]):
+class ImagesRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, ImagesModel)
 

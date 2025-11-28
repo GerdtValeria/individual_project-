@@ -3,7 +3,7 @@ from typing import List, Optional
 from app.models.comments import CommentsModel
 from app.repositories.base import BaseRepository
 
-class CommentsRepository(BaseRepository[CommentsModel]):
+class CommentsRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, CommentsModel)
 

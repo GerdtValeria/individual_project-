@@ -3,7 +3,7 @@ from typing import List, Optional
 from app.models.rents import RentsModel
 from app.repositories.base import BaseRepository
 
-class RentsRepository(BaseRepository[RentsModel]):
+class RentsRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, RentsModel)
 

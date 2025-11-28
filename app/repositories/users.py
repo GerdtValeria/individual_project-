@@ -3,7 +3,7 @@ from typing import Optional, List
 from app.models.users import UserModel
 from app.repositories.base import BaseRepository
 
-class UsersRepository(BaseRepository[UserModel]):
+class UsersRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, UserModel)
 

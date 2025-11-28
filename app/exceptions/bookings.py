@@ -1,4 +1,4 @@
-from app.base import MyAppException, MyAppHTTPException, BookingNotFoundException
+from app.exceptions import MyAppException, MyAppHTTPException, BookingNotFoundException
 
 
 class RealtyNotAvailableException(MyAppException):
