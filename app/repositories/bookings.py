@@ -3,10 +3,10 @@ from datetime import date
 from sqlalchemy import select
 
 from app.repositories.mapper.mappers import BookingDataMapper
-from src.exceptions.booking import RoomNotAvailableException
+from app.exceptions.bookings import RealtyNotAvailableException
 from app.models.bookings import BookingsModel
 from app.repositories.base import BaseRepository
-from src.repositories.utils import rooms_ids_free
+from app.repositories.utils import rooms_ids_free
 from app.schemas.bookings import SBookingAdd
 
 
@@ -24,10 +24,10 @@ class BookingsRepository(BaseRepository):
             (await self.session.execute(rooms_ids_to_get)).scalars().all()
         )
 
-        if booking_data.room_id in rooms_ids_to_booking:
+        if booking_data.rent_id in rooms_ids_to_booking:
             return await self.add(booking_data)
         else:
-            raise RoomNotAvailableException()
+            raise RealtyNotAvailableException()
 
     async def get_bookings_with_today_checkin(self):
         query = select(self.model).filter(self.model.date_from == date.today())

@@ -1,6 +1,4 @@
-from datetime import datetime, date
-from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SRent(BaseModel):
@@ -21,3 +19,7 @@ class SRentAdd(BaseModel):
     title: str = Field(...)
     price: int = Field(...)
     description: str = Field(..., min_length=10, max_length=65535)
+
+class SRentGet(SRentAdd):
+    id: int
+    model_config = ConfigDict(from_attributes=True)
