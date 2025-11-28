@@ -2,11 +2,12 @@ from datetime import date
 
 from sqlalchemy import select
 
+from app.repositories.mapper.mappers import BookingDataMapper
 from src.exceptions.booking import RoomNotAvailableException
 from app.models.bookings import BookingsModel
 from app.repositories.base import BaseRepository
 from src.repositories.utils import rooms_ids_free
-from src.schemas.bookings import SBookingAdd
+from app.schemas.bookings import SBookingAdd
 
 
 class BookingsRepository(BaseRepository):

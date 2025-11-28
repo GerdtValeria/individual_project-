@@ -3,10 +3,10 @@ from pydantic import BaseModel, Field
 
 class SComment(BaseModel):
     id:int
-    id_user: int = Field(..., ge=1)
-    id_rent: int = Field(..., ge=1)
-    content: str = Field(...)
+    id_user: int 
+    id_rent: int
+    content: str = Field(...,min_length=10, max_length=1000)
 
 class SCommentAdd(BaseModel):
     id:int
-    content: str = Field(...)
+    content: str = Field(...,min_length=10, max_length=1000)

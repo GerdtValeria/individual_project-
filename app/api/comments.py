@@ -9,11 +9,6 @@ async def get_comments():
  comments = await CommentService().get_all_comments()   
  return comments
 
-@router.get("/{id}")
-async def get_comment(id:int):
-    comment = await CommentService().get_all_comments(id=id)   
-    return comment
-
 @router.post("/")
 async def add_comment(comment_data: SCommentAdd):
     await CommentService().add_comment(comment_data)
