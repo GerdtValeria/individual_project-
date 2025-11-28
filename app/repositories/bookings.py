@@ -4,7 +4,7 @@ from datetime import datetime, date
 from app.models.bookings import BookingsModel
 from app.repositories.base import BaseRepository
 
-class BookingRepository(BaseRepository):
+class BookingsRepository(BaseRepository):
     def __init__(self, session):
         super().__init__(session, BookingsModel)
 
