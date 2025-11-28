@@ -1,4 +1,4 @@
-from app.exceptions.base import MyAppException, MyAppHTTPException
+from app.base import MyAppException, MyAppHTTPException, BookingNotFoundException
 
 
 class RealtyNotAvailableException(MyAppException):
@@ -11,5 +11,3 @@ class RealtyNotAvailableHTTPException(MyAppHTTPException):
 
 class BookingNotFoundException(Exception):
     detail = "Бронирование не найдено"
-    def __init__(self, booking_id: int):
-        super().__init__(f"Booking with id {booking_id} not found")
