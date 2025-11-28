@@ -1,38 +1,35 @@
 from sqlalchemy import select, and_
 from typing import List, Optional
-from datetime import datetime
-from app.models.rents import Rent
+from app.models.rents import RentsModel
 from app.repositories.base import BaseRepository
 
-class RentsRepository(BaseRepository[Rent]):
+class RentsRepository(BaseRepository[RentsModel]):
     def __init__(self, session):
-        super().__init__(session, Rent)
+        super().__init__(session, RentsModel)
 
-    async def get_user_rents(self, user_id: int) -> List[Rent]:
+    async def get_all(self) -> List[RentsModel]:
+        return await super().get_all()
+
+    async def get_by_user_id(self, user_id: int) -> List[RentsModel]:
         result = await self.session.execute(
-            select(Rent).where(Rent.user_id == user_id)
+            select(RentsModel).where(RentsModel.id_user == user_id)
         )
         return result.scalars().all()
 
-    async def get_active_rents(self) -> List[Rent]:
+    async def get_by_category_id(self, category_id: int) -> List[RentsModel]:
         result = await self.session.execute(
-            select(Rent).where(Rent.status == "active")
+            select(RentsModel).where(RentsModel.id_category == category_id)
         )
         return result.scalars().all()
 
-    async def get_rents_by_status(self, status: str) -> List[Rent]:
+    async def get_active_rents(self) -> List[RentsModel]:
         result = await self.session.execute(
-            select(Rent).where(Rent.status == status)
+            select(RentsModel).where(RentsModel.active == True)
         )
         return result.scalars().all()
 
-    async def get_overdue_rents(self) -> List[Rent]:
+    async def get_by_title(self, title: str) -> List[RentsModel]:
         result = await self.session.execute(
-            select(Rent).where(
-                and_(
-                    Rent.status == "active",
-                    Rent.end_date < datetime.now()
-                )
-            )
+            select(RentsModel).where(RentsModel.title.ilike(f"%{title}%"))
         )
         return result.scalars().all()

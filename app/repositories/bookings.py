@@ -1,43 +1,31 @@
-from sqlalchemy import select, and_, or_
+from sqlalchemy import select, and_
 from typing import List, Optional
-from datetime import datetime, date
+from datetime import date
 from app.models.bookings import BookingsModel
 from app.repositories.base import BaseRepository
 
-class BookingsRepository(BaseRepository):
+class BookingsRepository(BaseRepository[BookingsModel]):
     def __init__(self, session):
         super().__init__(session, BookingsModel)
 
-    async def get_user_bookings(self, user_id: int) -> List[BookingsModel]:
+    async def get_all(self) -> List[BookingsModel]:
+        return await super().get_all()
+
+    async def get_by_user_id(self, user_id: int) -> List[BookingsModel]:
         result = await self.session.execute(
             select(BookingsModel).where(BookingsModel.id_user == user_id)
         )
         return result.scalars().all()
 
-    async def get_active_bookings(self) -> List[BookingsModel]:
+    async def get_by_rent_id(self, rent_id: int) -> List[BookingsModel]:
         result = await self.session.execute(
-            select(BookingsModel).where(BookingsModel.status == "active")
+            select(BookingsModel).where(BookingsModel.id_sents == rent_id)
         )
         return result.scalars().all()
 
-    async def get_bookings_by_date_range(self, date_start: date, date_end: date) -> List[BookingsModel]:
+    async def get_current_bookings(self) -> List[BookingsModel]:
+        from datetime import date
         result = await self.session.execute(
-            select(BookingsModel).where(
-                and_(
-                    BookingsModel.booking_date >= date_start,
-                    BookingsModel.booking_date <= date_end
-                )
-            )
-        )
-        return result.scalars().all()
-
-    async def get_overdue_bookings(self) -> List[BookingsModel]:
-        result = await self.session.execute(
-            select(BookingsModel).where(
-                and_(
-                    BookingsModel.status == "active",
-                    BookingsModel.end_date < datetime.now().date()
-                )
-            )
+            select(BookingsModel).where(BookingsModel.date_end >= date.today())
         )
         return result.scalars().all()

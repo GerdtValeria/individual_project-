@@ -1,20 +1,17 @@
 from sqlalchemy import select
-from typing import List, Optional
-from app.models.images import Image
+from typing import List
+from app.models.images import ImagesModel
 from app.repositories.base import BaseRepository
 
-class ImagesRepository(BaseRepository[Image]):
+class ImagesRepository(BaseRepository[ImagesModel]):
     def __init__(self, session):
-        super().__init__(session, Image)
+        super().__init__(session, ImagesModel)
 
-    async def get_images_by_rent(self, rent_id: int) -> List[Image]:
-        result = await self.session.execute(
-            select(Image).where(Image.rent_id == rent_id)
-        )
-        return result.scalars().all()
+    async def get_all(self) -> List[ImagesModel]:
+        return await super().get_all()
 
-    async def get_primary_images(self) -> List[Image]:
+    async def get_by_rent_id(self, rent_id: int) -> List[ImagesModel]:
         result = await self.session.execute(
-            select(Image).where(Image.is_primary == True)
+            select(ImagesModel).where(ImagesModel.id == rent_id)  # исправьте на правильное поле связи
         )
         return result.scalars().all()
