@@ -1,7 +1,9 @@
 from sqlalchemy import select, desc
 from typing import List, Optional
+from app.exceptions.bookings import RealtyNotAvailableException
 from app.models.comments import CommentsModel
 from app.repositories.base import BaseRepository
+from app.schemas.bookings import SBookingAdd
 
 class CommentsRepository(BaseRepository):
     def __init__(self, session):
@@ -9,6 +11,21 @@ class CommentsRepository(BaseRepository):
 
     async def get_all(self) -> List[CommentsModel]:
         return await super().get_all()
+    
+    async def add_booking(self, booking_data: SBookingAdd, hotel_id: int):
+        rooms_ids_to_get = rooms_ids_free(
+            date_from=booking_data.date_from,
+            date_to=booking_data.date_to,
+            hotel_id=hotel_id,
+        )
+        rooms_ids_to_booking: list[int] = (
+            (await self.session.execute(rooms_ids_to_get)).scalars().all()
+        )
+
+        if booking_data.room_id in rooms_ids_to_booking:
+            return await self.add(booking_data)
+        else:
+            raise RealtyNotAvailableException()
 
     async def get_by_user_id(self, user_id: int) -> List[CommentsModel]:
         result = await self.session.execute(

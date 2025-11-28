@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from app.schemas.bookings import SBookingAdd
 from app.services.bookings import BookingService
 
-router = APIRouter(prefix="/sample",tags=["Sample"])
+router = APIRouter(prefix="/booking",tags=["Booking"])
 
 @router.get("/", summary="Просмотр всех бронирований")
 async def get_bookings():
