@@ -6,7 +6,6 @@ from app.api.images import router as router_images
 from app.api.rents import router as router_rents
 from app.api.roles import router as router_roles
 from app.api.users import router as router_users
-from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
@@ -24,4 +23,3 @@ app.include_router(router_images)
 app.include_router(router_rents)
 app.include_router(router_roles)
 app.include_router(router_users)
-app.mount('/static', StaticFiles(directory='app/static'), 'static')
